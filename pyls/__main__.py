@@ -4,10 +4,7 @@ import logging
 import logging.config
 import sys
 
-try:
-    import ujson as json
-except Exception:  # pylint: disable=broad-except
-    import json
+import orjson
 
 from .python_ls import (PythonLanguageServer, start_io_lang_server,
                         start_tcp_lang_server)
@@ -100,7 +97,7 @@ def _configure_logger(verbose=0, log_config=None, log_file=None):
 
     if log_config:
         with open(log_config, 'r') as f:
-            logging.config.dictConfig(json.load(f))
+            logging.config.dictConfig(orjson.load(f))
     else:
         formatter = logging.Formatter(LOG_FORMAT)
         if log_file:

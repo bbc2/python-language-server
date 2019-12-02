@@ -4,13 +4,9 @@ import collections
 import logging
 import sys
 
+import orjson
 from pylint.epylint import py_run
 from pyls import hookimpl, lsp
-
-try:
-    import ujson as json
-except Exception:  # pylint: disable=broad-except
-    import json
 
 log = logging.getLogger(__name__)
 
@@ -102,7 +98,7 @@ class PylintLinter(object):
         #  * refactor
         #  * warning
         diagnostics = []
-        for diag in json.loads(json_out):
+        for diag in orjson.loads(json_out):
             # pylint lines index from 1, pyls lines index from 0
             line = diag['line'] - 1
 
